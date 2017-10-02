@@ -194,10 +194,6 @@ class LINE extends LineAPI {
                 for (let i = 0; i < groupid.length; i++) {
                     this._rejectGroupInvitation(groupid[i])                    
                 }
-                return;
-            }
-            if(this.stateStatus.ac == 1) {
-                this.cancelAll(seq.to);
             }
         }
 
