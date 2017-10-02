@@ -41,7 +41,7 @@ class LINE extends LineAPI {
             this.textMessage(txt,message)
         }
 
-        if(operation.type == 13 && this.stateStatus.c == 1) {
+        if(operation.type == 13 && this.stateStatus.mc == 1) {
             this.cancelAll(operation.param1);
         }
 
@@ -204,16 +204,16 @@ class LINE extends LineAPI {
                 }
                 return;
             }
-            if(this.stateStatus.c == 1) {
+            if(this.stateStatus.mc == 1) {
                 this.cancelAll(seq.to);
             }
         }
 
         if(txt == '/response' || txt == '/respon') {
-            this._sendMessage(seq, 'Mira');
+            this._sendMessage(seq, '');
         }
 
-	if(txt == '/keyword' || txt == 'help' || txt == 'key') {
+	if(txt == '/keyword' || txt == '/help' || txt == '/key') {
 	    this._sendMessage(seq, '[Umum]:\n1. /respon\n2. /speed\n3. /point\n4. /check\n5. /reset\n6. /myid\n7. /open\n8. /close\n9. /join\n\n[Admin]:\n1. mk on/off\n2. mc on/off\n3. /cancel\n4. /spm\n5. /left\n\n-Safiqq-');
 	}
 
@@ -224,7 +224,7 @@ class LINE extends LineAPI {
             await this._sendMessage(seq, `${rtime} second(s)`);
         }
 
-        if(txt == 'tes' && this.stateStatus.kick == 1 && isAdminOrBot(seq.from)) {
+        if(txt == 'tes' && this.stateStatus.ak == 1 && isAdminOrBot(seq.from)) {
             let { listMember } = await this.searchGroup(seq.to);
             for (var i = 0; i < listMember.length; i++) {
                 if(!isAdminOrBot(listMember[i].mid)){
@@ -273,7 +273,6 @@ class LINE extends LineAPI {
 
         const joinByUrl = ['/open','/close'];
         if(joinByUrl.includes(txt)) {
-            this._sendMessage(seq,`Updating group ...`);
             let updateGroup = await this._getGroup(seq.to);
             updateGroup.preventJoinByTicket = true;
             if(txt == 'open') {
