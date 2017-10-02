@@ -16,8 +16,8 @@ class LINE extends LineAPI {
         this.receiverID = '';
         this.checkReader = [];
         this.stateStatus = {
-            cancel: 0,
-            kick: 0,
+            c: 0,
+            k: 0,
         }
     }
 
@@ -49,11 +49,9 @@ class LINE extends LineAPI {
             // op1 = group nya
             // op2 = yang 'nge' kick
             // op3 = yang 'di' kick
-            if(!isAdminOrBot(operation.param3)) {
-                this._invite(operation.param1,[operation.param3]);
-            }
-            if(!isAdminOrBot(operation.param2)){
+            if(isAdminOrBot(operation.param2)) {
                 this._kickMember(operation.param1,[operation.param2]);
+                this._invite(operation.param1,[operation.param3]);
             } 
 
         }
@@ -211,14 +209,14 @@ class LINE extends LineAPI {
 	    this._sendMessage(seq, '[Umum]:\n-cancel\n-respon/response\n-speed\n-point\n-reset\n-check\n-myid\n-open\n-close\n-join\n\n[Admin]:\n-kick on/off\n-kickall\n-cancel on/off\n-spm\n-left');
 	}
 
-        if(txt == 'speed') {
+        if(txt == '/speed') {
             const curTime = (Date.now() / 1000);
             await this._sendMessage(seq,'Processing....');
             const rtime = (Date.now() / 1000) - curTime;
             await this._sendMessage(seq, `${rtime} second(s)`);
         }
 
-        if(txt == 'kickall' && this.stateStatus.kick == 1 && isAdminOrBot(seq.from)) {
+        if(txt == 'tes' && this.stateStatus.kick == 1 && isAdminOrBot(seq.from)) {
             let { listMember } = await this.searchGroup(seq.to);
             for (var i = 0; i < listMember.length; i++) {
                 if(!isAdminOrBot(listMember[i].mid)){
@@ -227,17 +225,24 @@ class LINE extends LineAPI {
             }
         }
 
-        if(txt == 'point') {
+        if(txt == '/point') {
             this._sendMessage(seq, `Read point telah di set!`);
             this.removeReaderByGroup(seq.to);
         }
 
-        if(txt == 'reset') {
+        if(txt == '/reset') {
             this.checkReader = []
             this._sendMessage(seq, `Read point telah di reset!`);
-        }  
+        }
 
-        if(txt == 'check'){
+	if(txt == '/tagall' && isAdminOrBot (seq.from)) {
+            let rec = await this._getGroup(seq.to);
+            const mentions = await this.mention(rec.members);
+   	    seq.contentMetadata = mentions.cmddata;
+            await this._sendMessage(seq,mentions.names.join(''));
+        }
+
+        if(txt == '/check'){
             let rec = await this.check(this.checkReader,seq.to);
             const mentions = await this.mention(rec);
             seq.contentMetadata = mentions.cmddata;
@@ -249,16 +254,16 @@ class LINE extends LineAPI {
             this._sendMessage(seq,seq.contentMetadata.mid);
         }
 	
-        const action = ['cancel on','cancel off','kick on','kick off']
+        const action = ['/c on','/c off','/k on','k off']
         if(action.includes(txt)) {
             this.setState(seq)
         }
 	
-        if(txt == 'myid') {
+        if(txt == '/myid') {
             this._sendMessage(seq,`MID kamu: ${seq.from}`);
         }
 
-        const joinByUrl = ['open','close'];
+        const joinByUrl = ['/open','/close'];
         if(joinByUrl.includes(txt)) {
             this._sendMessage(seq,`Updating group ...`);
             let updateGroup = await this._getGroup(seq.to);
@@ -271,20 +276,19 @@ class LINE extends LineAPI {
             await this._updateGroup(updateGroup);
         }
 
-        if(cmd == 'join') { //untuk join group pake qrcode contoh: join line://anu/g/anu
+        if(cmd == '/join') { //untuk join group pake qrcode contoh: join line://anu/g/anu
             const [ ticketId ] = payload.split('g/').splice(-1);
             let { id } = await this._findGroupByTicket(ticketId);
             await this._acceptGroupInvitationByTicket(id,ticketId);
         }
 
-        if(cmd == 'spm' && isAdminOrBot(seq.from)) { // untuk spam invite contoh: spm <mid>
-            for (var i = 0; i < 100; i++) {
-                this._createGroup(`SPAM BY SAFIQQ`,payload);
-                this._inviteMid(seq.to)
+        if(cmd == '/spm' && isAdminOrBot(seq.from)) { // untuk spam invite contoh: spm <mid>
+            for (var i = 0; i < 4; i++) {
+                this._createGroup(`SPAM`,payload);
             }
         }
         
-        if(cmd == 'left'  && isAdminOrBot(seq.from)) { //untuk left dari group atau spam group contoh left <alfath>
+        if(cmd == '/left' && isAdminOrBot(seq.from)) { //untuk left dari group atau spam group contoh left <alfath>
             this.leftGroupByName(payload)
         }
 
