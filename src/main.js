@@ -41,7 +41,7 @@ class LINE extends LineAPI {
             this.textMessage(txt,message)
         }
 
-        if(operation.type == 13 && this.stateStatus.cancel == 1) {
+        if(operation.type == 13 && this.stateStatus.c == 1) {
             this.cancelAll(operation.param1);
         }
 
@@ -188,7 +188,15 @@ class LINE extends LineAPI {
         let txt = textMessages.toLowerCase();
         let messageID = seq.id;
 
-        if(cmd == 'cancel') {
+	if(txt == '/status') {
+            let [ actions , status ] = seq.text.split(' ');
+            const action = actions.toLowerCase();
+            const state = status.toLowerCase() == 'on' ? 1 : 0;
+            this.stateStatus[action] = state;
+            this._sendMessage(seq,`Status: \n${JSON.stringify(this.stateStatus)}`);
+	}
+
+        if(cmd == '/cancel') {
             if(payload == 'group') {
                 let groupid = await this._getGroupsInvited();
                 for (let i = 0; i < groupid.length; i++) {
@@ -196,17 +204,17 @@ class LINE extends LineAPI {
                 }
                 return;
             }
-            if(this.stateStatus.cancel == 1) {
+            if(this.stateStatus.c == 1) {
                 this.cancelAll(seq.to);
             }
         }
 
-        if(txt == 'response' || txt == 'respon') {
+        if(txt == '/response' || txt == 'respon') {
             this._sendMessage(seq, 'Mira');
         }
 
-	if(txt == 'keyword' || txt == 'help') {
-	    this._sendMessage(seq, '[Umum]:\n-cancel\n-respon/response\n-speed\n-point\n-reset\n-check\n-myid\n-open\n-close\n-join\n\n[Admin]:\n-kick on/off\n-kickall\n-cancel on/off\n-spm\n-left');
+	if(txt == '/keyword' || txt == 'help' || txt == 'key') {
+	    this._sendMessage(seq, '[Umum]:\n1. /respon\n2. /speed\n3. /point\n4. /check\n5. /reset\n6. /myid\n7. /open\n8. /close\n9. /join\n\n[Admin]:\n1. mk on/off\n2. mc on/off\n3. /cancel\n4. /spm\n5. /left');
 	}
 
         if(txt == '/speed') {
