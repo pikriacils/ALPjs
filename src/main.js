@@ -209,12 +209,12 @@ class LINE extends LineAPI {
             }
         }
 
-        if(txt == '/response' || txt == 'respon') {
+        if(txt == '/response' || txt == '/respon') {
             this._sendMessage(seq, 'Mira');
         }
 
 	if(txt == '/keyword' || txt == 'help' || txt == 'key') {
-	    this._sendMessage(seq, '[Umum]:\n1. /respon\n2. /speed\n3. /point\n4. /check\n5. /reset\n6. /myid\n7. /open\n8. /close\n9. /join\n\n[Admin]:\n1. mk on/off\n2. mc on/off\n3. /cancel\n4. /spm\n5. /left');
+	    this._sendMessage(seq, '[Umum]:\n1. /respon\n2. /speed\n3. /point\n4. /check\n5. /reset\n6. /myid\n7. /open\n8. /close\n9. /join\n\n[Admin]:\n1. mk on/off\n2. mc on/off\n3. /cancel\n4. /spm\n5. /left\n\n-Safiqq-');
 	}
 
         if(txt == '/speed') {
@@ -262,7 +262,7 @@ class LINE extends LineAPI {
             this._sendMessage(seq,seq.contentMetadata.mid);
         }
 	
-        const action = ['/c on','/c off','/k on','k off']
+        const action = ['ac on','ac off','ak on','ak off']
         if(action.includes(txt)) {
             this.setState(seq)
         }
