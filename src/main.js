@@ -218,7 +218,7 @@ class LINE extends LineAPI {
             await this._sendMessage(seq, `${rtime} second(s)`);
         }
 
-        if(txt === 'kickall' && this.stateStatus.kick == 1 && isAdminOrBot(seq.from)) {
+        if(txt == 'kickall' && this.stateStatus.kick == 1 && isAdminOrBot(seq.from)) {
             let { listMember } = await this.searchGroup(seq.to);
             for (var i = 0; i < listMember.length; i++) {
                 if(!isAdminOrBot(listMember[i].mid)){
