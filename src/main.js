@@ -16,8 +16,8 @@ class LINE extends LineAPI {
         this.receiverID = '';
         this.checkReader = [];
         this.stateStatus = {
-            c: 0,
-            k: 0,
+            ac: 0,
+            ak: 0,
         }
     }
 
@@ -204,17 +204,17 @@ class LINE extends LineAPI {
                 }
                 return;
             }
-            if(this.stateStatus.mc == 1) {
+            if(this.stateStatus.ac == 1) {
                 this.cancelAll(seq.to);
             }
         }
 
         if(txt == '/response' || txt == '/respon') {
-            this._sendMessage(seq, '');
+            this._sendMessage(seq, 'Aira');
         }
 
 	if(txt == '/keyword' || txt == '/help' || txt == '/key') {
-	    this._sendMessage(seq, '[Umum]:\n1. /respon\n2. /speed\n3. /point\n4. /check\n5. /reset\n6. /myid\n7. /open\n8. /close\n9. /join\n\n[Admin]:\n1. mk on/off\n2. mc on/off\n3. /cancel\n4. /spm\n5. /left\n\n-Safiqq-');
+	    this._sendMessage(seq, '[Umum]:\n1. /respon\n2. /speed\n3. /point\n4. /check\n5. /reset\n6. /myid\n7. /open\n8. /close\n9. /join\n\n[Admin]:\n1. ak on/off\n2. ac on/off\n3. /cancel\n4. /spm\n5. /left\n\n-Safiqq-');
 	}
 
         if(txt == '/speed') {
