@@ -247,8 +247,8 @@ class LINE extends LineAPI {
             const mentions = await this.mention(rec);
             seq.contentMetadata = mentions.cmddata;
             await this._sendMessage(seq,mentions.names.join(''));
-            
         }
+
         if(seq.contentType == 13) {
             seq.contentType = 0
             this._sendMessage(seq,seq.contentMetadata.mid);
