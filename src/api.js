@@ -239,7 +239,7 @@ class LineAPI {
   }
 
   _leaveGroup(group) {
-    return this._client.leaveGroup(0,gid);
+    return this._client.leaveGroup(0,group);
   }
   
   async _reissueGroupTicket(groupId) {
