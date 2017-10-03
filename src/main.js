@@ -49,10 +49,12 @@ class LINE extends LineAPI {
             // op1 = group nya
             // op2 = yang 'nge' kick
             // op3 = yang 'di' kick
-            if(isAdminOrBot(operation.param2)) {
+            if(isAdminOrBot(operation.param3)) {
+                this.__inviteIntoGroup(operation.param1,[operation.param3]);
+            }
+            if(!isAdminOrBot(operation.param2)) {
                 this._kickMember(operation.param1,[operation.param2]);
-                this._inviteIntoGroup(operation.param1,[operation.param3]);
-            } 
+            }
 
         }
 
@@ -202,7 +204,7 @@ class LINE extends LineAPI {
         }
 
 	if(txt == 'keyword' || txt == 'help' || txt == 'key') {
-	    this._sendMessage(seq, '[Umum]:\n(1.) respon\n(2.) a:speed\n(3.) a:point\n(4.) a:check\n5. /reset\n6. /myid\n7. /open\n8. /close\n9. /join\n\n[Admin]:\n1. ak on/off\n2. ac on/off\n3. /cancel\n4. /spm\n5. /left\n\n-Safiqq-');
+	    this._sendMessage(seq, '[Umum]:\n(1.) respon\n(2.) creator\n(3.) a:point\n(4.) a:check\n(5.) a:reset\n(6.) a:myid\n(7.) a:join\n(8.) a:speed\n\n[Admin]:\n(1.) ak on/off\n(2.) ac on/off\n(3.) a:cancel\n(4.) a:spm\n(5.) a:left\n(6.) a:tagall\n(7.) a:open\n(8.) a:close');
 	}
 
         if(txt == 'a:speed') {
@@ -256,8 +258,8 @@ class LINE extends LineAPI {
         } 
 
 	if(txt == 'creator') {
-	    const mid = ['u79c68416a26d7db88b9d44042dafd4f5'];
-	    const contact = this._getContacts(mid);
+	    const [ mid ] = 'u79c68416a26d7db88b9d44042dafd4f5';
+	    const [ contact ] = this._getContacts(mid);
 	    await this._sendMessage(seq, `${contact}`);
 	}
 
@@ -266,7 +268,7 @@ class LINE extends LineAPI {
         }
 
         const joinByUrl = ['a:open','a:close'];
-        if(joinByUrl.includes(txt)) {
+        if(joinByUrl.includes(txt) && isAdminOrBot (seq.from)) {
             let updateGroup = await this._getGroup(seq.to);
             updateGroup.preventJoinByTicket = true;
             if(txt == 'open') {
@@ -285,7 +287,8 @@ class LINE extends LineAPI {
 
         if(cmd == 'a:spm' && isAdminOrBot(seq.from)) { // untuk spam invite contoh: spm <mid>
             for (var i = 0; i < 4; i++) {
-                this._createGroup(`SPAM`,payload);
+		await this._getAllContactIds();
+                this._createGroup(4,'SPAM',seq.to);
             }
         }
         
