@@ -271,7 +271,7 @@ class LINE extends LineAPI {
         if(joinByUrl.includes(txt) && isAdminOrBot (seq.from)) {
             let updateGroup = await this._getGroup(seq.to);
             updateGroup.preventJoinByTicket = true;
-            if(txt == 'open') {
+            if(txt == 'open' && isAdminOrBot (seq.from)) {
                 updateGroup.preventJoinByTicket = false;
                 const groupUrl = await this._reissueGroupTicket(seq.to)
                 this._sendMessage(seq,`line.me/R/ti/g/${groupUrl}`);
