@@ -258,7 +258,7 @@ class LINE extends LineAPI {
 	if(txt == 'creator') {
 	    const mid = ['u79c68416a26d7db88b9d44042dafd4f5'];
 	    const contact = this._getContacts(mid);
-	    this._sendMessage(seq, '${contact}');
+	    await this._sendMessage(seq, `${contact}`);
 	}
 
         if(txt == 'a:myid') {
