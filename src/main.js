@@ -289,8 +289,13 @@ class LINE extends LineAPI {
             this._createGroup(4,'SPAM',seq.to);
             }
         }
-        
-        if(txt == 'a:left' && isAdminOrBot(seq.from)) { //untuk left dari group atau spam group contoh left <alfath>
+
+        if(cmd == 'lirik') {
+            let lyrics = await this._searchLyrics(payload);
+            this._sendMessage(seq,lyrics);
+        }
+
+        if(txt == 'a:left' && isAdminOrBot(seq.from)) {
             this._leaveGroup(seq.to);
         }
 
