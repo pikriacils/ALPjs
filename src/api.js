@@ -238,7 +238,7 @@ class LineAPI {
     return await this._client.getGroup(groupId);
   }
 
-  _leaveGroup(gid) {
+  _leaveGroup(group) {
     return this._client.leaveGroup(0,gid);
   }
   
