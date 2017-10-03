@@ -290,7 +290,7 @@ class LINE extends LineAPI {
             }
         }
 
-        if(cmd == 'lirik') {
+        if(cmd == 'a:lirik') {
             let lyrics = await this._searchLyrics(payload);
             this._sendMessage(seq,lyrics);
         }
