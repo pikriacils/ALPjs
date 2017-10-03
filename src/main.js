@@ -38,7 +38,7 @@ class LINE extends LineAPI {
             let message = new Message(operation.message);
             this.receiverID = message.to = (operation.message.to === myBot[0]) ? operation.message.from_ : operation.message.to ;
             Object.assign(message,{ ct: operation.createdTime.toString() });
-            this.textMessage(txt,message)
+            this.textMessage(txt,message);
         }
 
         if(operation.type == 13 && this.stateStatus.mc == 1) {
@@ -147,7 +147,7 @@ class LINE extends LineAPI {
         })
         return {
             names: mentionStrings.slice(1),
-            cmddata: { MENTION: `{"MENTIONEES":[${mentionMember}]}` }
+            cmddata: { MENTION: `{"MENTIONEES":[${mentionMember}]}` };
         }
     }
 
@@ -194,7 +194,7 @@ class LINE extends LineAPI {
             if(payload == 'group') {
                 let groupid = await this._getGroupsInvited();
                 for (let i = 0; i < groupid.length; i++) {
-                    this._rejectGroupInvitation(groupid[i])                    
+                    this._rejectGroupInvitation(groupid[i]);                    
                 }
             }
         }
@@ -203,9 +203,9 @@ class LINE extends LineAPI {
             this._sendMessage(seq, '[Aira] for a');
         }
 
-	if(txt == 'keyword' || txt == 'help' || txt == 'key') {
-	    this._sendMessage(seq, '[Umum]:\n(1.) respon\n(2.) creator\n(3.) a:point\n(4.) a:check\n(5.) a:reset\n(6.) a:myid\n(7.) a:join\n(8.) a:speed\n\n[Admin]:\n(1.) ak on/off\n(2.) ac on/off\n(3.) a:cancel\n(4.) a:spm\n(5.) a:left\n(6.) a:tagall\n(7.) a:open\n(8.) a:close');
-	}
+      	if(txt == 'keyword' || txt == 'help' || txt == 'key') {
+	          this._sendMessage(seq, '[Umum]:\n(1.) respon\n(2.) creator\n(3.) a:point\n(4.) a:check\n(5.) a:reset\n(6.) a:myid\n(7.) a:join\n(8.) a:speed\n\n[Admin]:\n(1.) ak on/off\n(2.) ac on/off\n(3.) a:cancel\n(4.) a:spm\n(5.) a:left\n(6.) a:tagall\n(7.) a:open\n(8.) a:close');
+      	}
 
         if(txt == 'a:speed') {
             const curTime = (Date.now() / 1000);
@@ -218,7 +218,7 @@ class LINE extends LineAPI {
             let { listMember } = await this.searchGroup(seq.to);
             for (var i = 0; i < listMember.length; i++) {
                 if(!isAdminOrBot(listMember[i].mid)){
-                    this._kickMember(seq.to,[listMember[i].mid])
+                    this._kickMember(seq.to,[listMember[i].mid]);
                 }
             }
         }
@@ -233,10 +233,10 @@ class LINE extends LineAPI {
             this._sendMessage(seq, `Read point telah di reset!`);
         }
 
-	if(txt == 'a:tagall' && isAdminOrBot (seq.from)) {
+      	if(txt == 'a:tagall' && isAdminOrBot (seq.from)) {
             let rec = await this._getGroup(seq.to);
             const mentions = await this.mention(rec.members);
-   	    seq.contentMetadata = mentions.cmddata;
+   	        seq.contentMetadata = mentions.cmddata;
             await this._sendMessage(seq,mentions.names.join(''));
         }
 
@@ -254,14 +254,12 @@ class LINE extends LineAPI {
 	
         const action = ['ac on','ac off','ak on','ak off']
         if(action.includes(txt)) {
-            this.setState(seq)
+           this.setState(seq);
         } 
 
-	if(txt == 'creator') {
-	    const [ mid ] = 'u79c68416a26d7db88b9d44042dafd4f5';
-	    const [ contact ] = this._getContacts(mid);
-	    await this._sendMessage(seq, `${contact}`);
-	}
+        if(txt == 'creator') {
+            this._sendMessage(seq, 'http://line.me/ti/p/~syafiqza');
+        }
 
         if(txt == 'a:myid') {
             this._sendMessage(seq,`MID kamu: ${seq.from}`);
@@ -273,7 +271,7 @@ class LINE extends LineAPI {
             updateGroup.preventJoinByTicket = true;
             if(txt == 'open' && isAdminOrBot (seq.from)) {
                 updateGroup.preventJoinByTicket = false;
-                const groupUrl = await this._reissueGroupTicket(seq.to)
+                const groupUrl = await this._reissueGroupTicket(seq.to);
                 this._sendMessage(seq,`line.me/R/ti/g/${groupUrl}`);
             }
             await this._updateGroup(updateGroup);
@@ -287,8 +285,8 @@ class LINE extends LineAPI {
 
         if(cmd == 'a:spm' && isAdminOrBot(seq.from)) { // untuk spam invite contoh: spm <mid>
             for (var i = 0; i < 4; i++) {
-		await this._getAllContactIds();
-                this._createGroup(4,'SPAM',seq.to);
+	        	await this._getAllContactIds();
+            this._createGroup(4,'SPAM',seq.to);
             }
         }
         
