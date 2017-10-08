@@ -234,8 +234,8 @@ class LineAPI {
       return await this._client.getGroups(groupId);
   }
 
-  async _getGroup(groupId) {
-    return await this._client.getGroup(groupId);
+  async _getGroup(group) {
+    return await this._client.getGroup(group);
   }
 
   _leaveGroup(group) {
